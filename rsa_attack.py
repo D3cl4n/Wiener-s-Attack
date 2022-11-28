@@ -4,14 +4,22 @@ import sys
 continued_fractions = []
 
 class AttackHandler:
+    """Class for handling all operations needed to perform the attack"""
+
     def __init__(self, e, N):
+        """Initialization method"""
+
         self.e = e
         self.n = N
 
-    def finish_recursion(self, x, y):
+    def finish_recursion(self, x, y):   
+        """Finish recursion by returning x / y"""
+
         return x / y
 
     def compute_continued_fractions(self, x, y):
+        """Computes the continued fraction segments for a given fraction"""
+
         count = x / y
         remainder = x % y
         continued_fractions.append(count)
@@ -22,6 +30,8 @@ class AttackHandler:
             self.compute_continued_fractions(y, remainder)
 
     def compute_convergents(self, cont_frac):
+        """Computes the convergents for a given list of continued fraction segments"""
+
         res_num = list([cont_frac[0], cont_frac[1]*cont_frac[0]+1])
         res_denom = list([1, cont_frac[1]])
 
@@ -37,6 +47,8 @@ class AttackHandler:
         return res_num, res_denom
 
     def compute_euler_totient(self, e, numerators, denominators):
+        """Compute the Euler's totient values given a list of convergents"""
+
         totient_vals = []
         for i in range(0, len(numerators)):
             if numerators[i] == 0:
@@ -49,6 +61,8 @@ class AttackHandler:
         return totient_vals
 
     def find_roots(self, totients, N):
+        """Find the roots of the constructed polynomial, attempts to factor n"""
+
         for i in range(0, len(totients)):
             a = 1
             b = ((int(N)-totients[i])+1)
@@ -62,6 +76,8 @@ class AttackHandler:
                 print(f"Recovered values {p}, {q} for p and q")
 
 if __name__ == '__main__':
+    """Performing the attack"""
+    
     sys.stackrecursionsize = 1000
     e = input("Enter value for e: ")
     N = input("Enter value for N: ")
